@@ -6,7 +6,7 @@ namespace Assessement_3_q1
         //    public List<string> info;
         //}
         private bool compareWords(string s1, string s2) {
-            if(string.CompareOrdinal(s1, s2) > 0) {
+            if (string.CompareOrdinal(s1, s2) > 0) {
                 return true;
             }
             return false;
@@ -35,37 +35,51 @@ namespace Assessement_3_q1
                     item = list[midPoint];
                     found = true;
                     position = ++midPoint;
-                } 
-            } 
+                }
+            }
         }
 
         List<string> str;
         public Form1() {
             InitializeComponent();
-            setStr();
+            txtInitialList.Text = "Jon Dot Eva Roy Guy Jan Tom Jim Ann Kim Ron Tim Kay Ami";
         }
 
 
         //List<string> str = new List<string>() 
-        //    { "Jon", "Dot", "Eva", "Roy", "Guy", "Jan", "Tom", "Jim", "Ann", "Kim", "Ron", "Tim", "Kay", "Ami" };
+        //    Jon Dot Eva Roy Guy Jan Tom Jim Ann Kim Ron Tim Kay Ami 
         
-        private void setStr() {
-            str = new List<string>()
-            { "Jon", "Dot", "Eva", "Roy", "Guy", "Jan", "Tom", "Jim", "Ann", "Kim", "Ron", "Tim", "Kay", "Ami" };
-        }
 
         private void button1_Click(object sender, EventArgs e) {
-            str = str.OrderBy(f => f[0]).ThenBy(s => s[1]).ThenBy(t => t[2]).ToList();
-            string item = textBox1.Text;
+            string item = txtFind.Text;
             bool found = false;
             int position = 0;
 
             BinarySearch(str, ref item, ref found, ref position);
 
-            textBox2.Text = string.Join(", ", str);
+            if (str[0] == "") {
+                MessageBox.Show("Initial List is empty!");
+                txtResult.Text = "";
+                return;
+            }
 
-            textBox3.Text = position.ToString();
+            if (found) {
+                txtResult.Text = $"\'{item}\' found at position {position}.";
+            }
+            else {
+                txtResult.Text = $"\'{item}\' not found.";
+            }
+        }
 
+        private void btnSort_Click(object sender, EventArgs e) {
+            str = txtInitialList.Text.Split(' ').ToList();
+            if (str[0] == "") {
+                txtSortedList.Text = "There is nosing to sort.";
+            }
+            else {
+                str = str.OrderBy(f => f[0]).ThenBy(s => s[1]).ThenBy(t => t[2]).ToList();
+                txtSortedList.Text = string.Join(" ", str);
+            }
         }
     }
 }
