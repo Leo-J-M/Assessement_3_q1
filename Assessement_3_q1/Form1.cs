@@ -1,10 +1,7 @@
 namespace Assessement_3_q1
 {
     public partial class Form1 : Form {
-        //struct ListType {
-        //    public int length;
-        //    public List<string> info;
-        //}
+        //compares 2 words and returns true if word1 'grater' than word2
         private bool compareWords(string s1, string s2) {
             if (string.CompareOrdinal(s1, s2) > 0) {
                 return true;
@@ -42,13 +39,9 @@ namespace Assessement_3_q1
         List<string> str;
         public Form1() {
             InitializeComponent();
+            //standart initial word list can be changed to whatever is needed
             txtInitialList.Text = "Jon Dot Eva Roy Guy Jan Tom Jim Ann Kim Ron Tim Kay Ami";
         }
-
-
-        //List<string> str = new List<string>() 
-        //    Jon Dot Eva Roy Guy Jan Tom Jim Ann Kim Ron Tim Kay Ami 
-        
 
         private void button1_Click(object sender, EventArgs e) {
             string item = txtFind.Text;
@@ -62,6 +55,9 @@ namespace Assessement_3_q1
                 txtResult.Text = "";
                 return;
             }
+            if(txtFind.Text == "") {
+                return;
+            }
 
             if (found) {
                 txtResult.Text = $"\'{item}\' found at position {position}.";
@@ -71,15 +67,22 @@ namespace Assessement_3_q1
             }
         }
 
+        //sorts the list alphabetically by first three letters
         private void btnSort_Click(object sender, EventArgs e) {
-            str = txtInitialList.Text.Split(' ').ToList();
-            if (str[0] == "") {
-                txtSortedList.Text = "There is nosing to sort.";
+            try {
+                str = txtInitialList.Text.Split(' ').ToList();
+                if (str[0] == "") {
+                    txtSortedList.Text = "There is nosing to sort.";
+                }
+                else {
+                    str = str.OrderBy(f => f[0]).ThenBy(s => s[1]).ThenBy(t => t[2]).ToList();
+                    txtSortedList.Text = string.Join(" ", str);
+                }
             }
-            else {
-                str = str.OrderBy(f => f[0]).ThenBy(s => s[1]).ThenBy(t => t[2]).ToList();
-                txtSortedList.Text = string.Join(" ", str);
+            catch(IndexOutOfRangeException ex) {
+                MessageBox.Show("One or more words less then three characters.");
             }
+            
         }
     }
 }
